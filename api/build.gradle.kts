@@ -7,5 +7,6 @@ bootJar.enabled = true
 
 
 dependencies {
-    implementation(project(":core"))
+//    implementation(project(":core"))
+    implementation(project(":domain"))
 }

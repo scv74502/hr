@@ -1,0 +1,24 @@
+spring:
+  profiles:
+    active: local
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+#---
+#spring:
+#  profiles: production
+#  datasource:
+#    url: jdbc:mysql://prod-db-server:3306/hr_schema
+#    username: prod_username
+#    password: prod_password
