@@ -2,10 +2,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
-val jar: Jar by tasks
+//val jar: Jar by tasks
 val bootJar: BootJar by tasks
-jar.enabled = true
-bootJar.enabled = true
+//jar.enabled = true
+bootJar.enabled = false
 
 plugins {
     kotlin("kapt")

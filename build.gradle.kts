@@ -49,6 +49,10 @@ subprojects {
         implementation("org.springframework.boot:spring-boot-starter-web")
 
         //공통사용
+        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+        implementation("com.fasterxml.jackson.core:jackson-core:2.18.2")
+        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+        implementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -59,5 +63,6 @@ subprojects {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 }
+
 
 

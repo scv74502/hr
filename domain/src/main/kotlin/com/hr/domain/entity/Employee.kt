@@ -8,7 +8,7 @@ import java.time.LocalDate
 
 @Entity
 @Table(name = "employees")
-open class Employee {
+open class Employee() {
     @Id
     @Column(name = "employee_id", columnDefinition = "int UNSIGNED not null")
     open var id: Long? = null
@@ -47,7 +47,7 @@ open class Employee {
     @Column(name = "commission_pct", precision = 2, scale = 2)
     open var commissionPct: BigDecimal? = null
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)  // ToOne의 값은 꼭 Lazy로 세팅하기
     @JoinColumn(name = "manager_id")
     open var manager: Employee? = null
 
