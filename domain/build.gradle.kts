@@ -20,5 +20,4 @@ dependencies {
     runtimeOnly("mysql:mysql-connector-java:8.0.33")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.batch:spring-batch-test")
 }
