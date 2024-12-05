@@ -19,9 +19,4 @@ data class EmployeeCurInfoResponse(
     var managerId: Long? = null,
     var departmentId: Long? = null,
     var managerNow: Boolean? = false
-) {
-//    fun toEmployeeCurInfo(employee: Employee): EmployeeCurInfoResponse {
-//        val mapper = Mappers.getMapper(EmployeeCurInfoResponse::class.java)
-//        return mapper.toEmployeeCurInfo(employee)
-//    }
-}
+)
