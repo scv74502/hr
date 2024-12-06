@@ -1,12 +1,9 @@
 package com.hr.api.controller.response
 
-import com.hr.domain.entity.Employee
-import com.hr.domain.entity.Job
-import org.mapstruct.factory.Mappers
 import java.math.BigDecimal
 import java.time.LocalDate
 
-data class EmployeeCurInfoResponse(
+data class EmpCurInfoResponse(
     var id: Long? = null,
     var firstName: String? = null,
     var lastName: String? = null,

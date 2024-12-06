@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import com.core.exception.exceptions.response.ErrorResponse
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = ["com.hr.api"])
 class GlobalExceptionHandler {
     @ExceptionHandler(DefaultException::class)
     fun handleDefaultException(ex: DefaultException): ResponseEntity<ErrorResponse> {

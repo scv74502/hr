@@ -1,6 +1,6 @@
 package com.hr.api.mapper
 
-import com.hr.api.controller.response.EmployeeCurInfoResponse
+import com.hr.api.controller.response.EmpCurInfoResponse
 import com.hr.domain.entity.Employee
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
@@ -11,5 +11,5 @@ interface EmployeeMapper {
     @Mapping(source = "department.id", target = "departmentId")
     @Mapping(source = "job.jobId", target = "jobId")
     @Mapping(target = "managerNow", expression = "java(employee.getManager() == null)")
-    fun toEmployee(employee: Employee?): EmployeeCurInfoResponse
+    fun toEmployee(employee: Employee?): EmpCurInfoResponse
 }
