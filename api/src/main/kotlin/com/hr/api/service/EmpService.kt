@@ -58,7 +58,7 @@ class EmpService (
 
     @Transactional
     fun updateEmpInfo(id: Long, empUpdateRequest: UpdateEmpRequest): UpdateEmpResponse? {
-        val employee = employeeRepository.findEmployeeById(id) ?: run {
+        val employee = employeeRepository.findEmployeeWithJobAndDepartment(id) ?: run {
             logger.error("[EmpService.updateEmpInfo] Employee with id: $id is null")
             throw DefaultException(DefaultExceptionCode.RESOURCE_NOT_FOUND)
         }
@@ -80,7 +80,7 @@ class EmpService (
 
         // managerId가 null이면 employee.manager는 자동으로 null
         employee.manager = empUpdateRequest.managerId?.let { managerId ->
-            employeeRepository.findEmployeeById(managerId)
+            employeeRepository.findEmployeeWithJobAndDepartment(managerId)
         }
 
         empUpdateRequest.departmentId?.let { departmentId ->
