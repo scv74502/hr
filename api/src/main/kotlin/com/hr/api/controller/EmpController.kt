@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 class EmpController(
     val empService: EmpService
 ) {
-    @GetMapping("/cur-info/{id}")
+    @GetMapping("/{id}")
     fun getCurInfo(@PathVariable id: Long): ResponseEntity<EmpCurInfoResponse> {
         logger.info{ "[EmpController.getCurInfo1] id : $id" }
         val result = empService.getEmpCurInfo(id)
