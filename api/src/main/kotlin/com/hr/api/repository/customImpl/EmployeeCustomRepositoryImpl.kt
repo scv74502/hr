@@ -4,13 +4,9 @@ import com.hr.api.controller.response.EmpCurInfoResponse
 import com.hr.api.controller.response.EmpWorkHistoryTemp
 import com.hr.api.repository.custom.EmployeeCustomRepository
 import com.hr.domain.entity.*
-import com.querydsl.core.types.Order
-import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.Projections
-import com.querydsl.core.types.dsl.DatePath
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
-import java.time.LocalDate
 
 @Repository
 class EmployeeCustomRepositoryImpl(
@@ -18,31 +14,32 @@ class EmployeeCustomRepositoryImpl(
 ): EmployeeCustomRepository {
     val employee = QEmployee.employee
     val jobHistory = QJobHistory.jobHistory
-    val jobHistoryId = QJobHistoryId.jobHistoryId
     val job = QJob.job
     val department = QDepartment.department
-    val manager = QEmployee.employee
+    val managerAlias = QEmployee("managerAlias")
 
     override fun findEmpById(id: Long): EmpCurInfoResponse? {
         return queryFactory
             .select(
                 Projections.bean(
                     EmpCurInfoResponse::class.java,
-                    employee.id,
                     employee.firstName,
                     employee.lastName,
                     employee.email,
                     employee.phoneNumber,
                     employee.hireDate,
-                    job.jobId.`as`("jobId"),
+                    employee.job.jobId.`as`("jobId"),
                     employee.salary,
                     employee.commissionPct,
                     employee.manager.id.`as`("managerId"),
                     employee.department.id.`as`("departmentId"),
-                    employee.manager.isNull.`as`("managerNow")
+                    managerAlias.isNull.`as`("managerNow")
                 )
             )
             .from(employee)
+            .leftJoin(employee.job, job)
+            .leftJoin(employee.department, department)
+            .leftJoin(employee.manager, managerAlias)
             .where(employee.id.eq(id))
             .fetchOne()
     }
@@ -64,18 +61,10 @@ class EmployeeCustomRepositoryImpl(
             .join(jobHistory.job, job)
             .join(jobHistory.department, department)
             .where(jobHistory.employee.id.eq(id))
-            .orderBy(getOrderSpecifierByDateAsc(jobHistory.id.startDate), getOrderSpecifierByDateAsc(jobHistory.endDate))
+            .orderBy(jobHistory.id.startDate.asc(), jobHistory.endDate.asc())
             .fetch()
 
         return results
-    }
-
-    fun getOrderSpecifierByDateAsc(datePath: DatePath<LocalDate>): OrderSpecifier<LocalDate>{
-        return OrderSpecifier(Order.ASC, datePath)
-    }
-
-    fun getOrderSpecifierByDateDesc(datePath: DatePath<LocalDate>): OrderSpecifier<LocalDate>{
-        return OrderSpecifier(Order.DESC, datePath)
     }
 }
 

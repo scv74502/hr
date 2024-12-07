@@ -8,6 +8,7 @@ import com.hr.api.controller.response.EmpHistoryResponse
 import com.hr.api.controller.request.UpdateEmpRequest
 import com.hr.api.controller.response.UpdateEmpResponse
 import com.hr.api.service.EmpService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -23,10 +24,9 @@ class EmpController(
 ) {
     @GetMapping("/cur-info/{id}")
     fun getCurInfo(@PathVariable id: Long): ResponseEntity<EmpCurInfoResponse> {
-        logger.info{ "[EmpController.getCurInfo] id : $id" }
-        val employeeCurInfoResponse = empService.getEmpCurInfo(id)
-        val result: ResponseEntity<EmpCurInfoResponse> = ResponseEntity.ok(employeeCurInfoResponse)
-        return result
+        logger.info{ "[EmpController.getCurInfo1] id : $id" }
+        val result = empService.getEmpCurInfo(id)
+        return ResponseEntity(result, HttpStatus.OK)
     }
 
     @GetMapping("/history/{id}")

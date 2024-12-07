@@ -23,12 +23,16 @@ class EmpService (
     private val jobRepository: JobRepository,
     private val departmentRepository: DepartmentRepository,
 ){
+
     @Transactional(readOnly = true)
     fun getEmpCurInfo(id: Long): EmpCurInfoResponse? {
-        return employeeRepository.findEmpById(id) ?: run {
-            logger.error { "[EmpService.getEmpCurInfo] Employee not found with id: $id" }
+        val result = employeeRepository.findEmpById(id)
+        result ?: run {
+            logger.error { "[EmpService.getEmpCurInfo1] Employee with id $id is empty" }
             throw DefaultException(DefaultExceptionCode.RESOURCE_NOT_FOUND)
         }
+
+        return result
     }
 
     @Transactional(readOnly = true)
@@ -63,49 +67,44 @@ class EmpService (
             throw DefaultException(DefaultExceptionCode.RESOURCE_NOT_FOUND)
         }
 
-        empUpdateRequest.firstName?.let { employee.firstName = it }
-        empUpdateRequest.lastName?.let { employee.lastName = it }
-        empUpdateRequest.email?.let { employee.email = it }
-        empUpdateRequest.phoneNumber?.let { employee.phoneNumber = it }
-        empUpdateRequest.hireDate?.let { employee.hireDate = it }
-        empUpdateRequest.salary?.let { employee.salary = it }
-        empUpdateRequest.commissionPct?.let { employee.commissionPct = it }
+        empUpdateRequest.apply {
+            firstName?.let { employee.firstName = it }
+            lastName?.let { employee.lastName = it }
+            email?.let { employee.email = it }
+            phoneNumber?.let { employee.phoneNumber = it }
+            hireDate?.let { employee.hireDate = it }
+            salary?.let { employee.salary = it }
+            commissionPct?.let { employee.commissionPct = it }
 
-        empUpdateRequest.jobId?.let { jobId ->
-            val job = jobRepository.findJobByJobId(jobId)
-            job?.let{
-                employee.job = job
+            jobId?.let { it ->
+                employee.job = jobRepository.findJobByJobId(it) ?: let{
+                    logger.error("[EmpService.updateEmpInfo] jobs with jobId: '${it.jobId}' is not found")
+                    throw DefaultException(DefaultExceptionCode.RESOURCE_NOT_FOUND)
+                }
+            } ?: let {
+                employee.job = null
+            }
+
+            managerId?.let { it ->
+                employee.manager = employeeRepository.findEmployeeById(it) ?: let{
+                    logger.error("[EmpService.updateEmpInfo] manager with id: '${it.managerId}' is not found")
+                    throw DefaultException(DefaultExceptionCode.RESOURCE_NOT_FOUND)
+                }
+            } ?: let {
+                employee.manager = null
+            }
+
+            departmentId?.let { it ->
+                employee.department = departmentRepository.findDepartmentById(it) ?: let{
+                    logger.error("[EmpService.updateEmpInfo] department with id: '${it.departmentId}' is not found")
+                    throw DefaultException(DefaultExceptionCode.RESOURCE_NOT_FOUND)
+                }
+            } ?: let {
+                employee.department = null
             }
         }
 
-        // managerId가 null이면 employee.manager는 자동으로 null
-        employee.manager = empUpdateRequest.managerId?.let { managerId ->
-            employeeRepository.findEmployeeWithJobAndDepartment(managerId)
-        }
-
-        empUpdateRequest.departmentId?.let { departmentId ->
-            val department = departmentRepository.findDepartmentById(departmentId)
-            department?.let{
-                employee.department = department
-            }
-        }
-
-        val result = employeeRepository.save(employee)
-        // managerNow 설정 로직
-        val managerNow = result.manager?.id == null
-
-        return UpdateEmpResponse(
-            firstName = result.firstName,
-            lastName = result.lastName,
-            email = result.email,
-            phoneNumber = result.phoneNumber,
-            hireDate = result.hireDate,
-            jobId = result.job?.jobId,
-            salary = result.salary,
-            commissionPct = result.commissionPct,
-            managerId = result.manager?.id,
-            managerNow = managerNow,
-            departmentId = result.department?.id
-        )
+        val updatedEmployee = employeeRepository.save(employee)
+        return UpdateEmpResponse.of(updatedEmployee)
     }
 }

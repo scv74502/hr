@@ -10,8 +10,9 @@ interface EmployeeRepository: JpaRepository<Employee, Long>, EmployeeCustomRepos
     @Query("""
     SELECT e 
     FROM Employee e
-    JOIN FETCH e.job j
-    JOIN FETCH e.department d
+    LEFT JOIN FETCH e.job j
+    LEFT JOIN FETCH e.department d
+    LEFT JOIN FETCH e.manager 
     WHERE e.id = :id
 """)
     fun findEmployeeWithJobAndDepartment(id: Long): Employee?
