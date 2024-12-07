@@ -3,6 +3,7 @@ package com.hr.api.controller
 import com.core.log.logger
 import com.hr.api.controller.request.UpdateDeptSalaryRequest
 import com.hr.api.controller.response.DeptInfoResponse
+import com.hr.api.controller.response.UpdateDeptSalaryResponse
 import com.hr.api.service.DeptService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -24,9 +25,9 @@ class DeptController(
     fun raiseDeptSalary(
         @PathVariable id:Long,
         @RequestBody updateDeptSalaryRequest: UpdateDeptSalaryRequest
-    ):ResponseEntity<String>{
+    ):ResponseEntity<List<UpdateDeptSalaryResponse>>{
         logger.info{ "[DeptController.raiseDeptSalary] id : $id, percentage : ${updateDeptSalaryRequest.percentage}%" }
-//        val result = deptService.
-        return ResponseEntity("""""", HttpStatus.OK)
+        val result = updateDeptSalaryRequest.percentage.let { deptService.raiseDeptSalary(id, it) }
+        return ResponseEntity(result, HttpStatus.OK)
     }
 }

@@ -1,8 +1,8 @@
 package com.hr.api.controller.request
 
-import jakarta.validation.constraints.Size
+import jakarta.validation.constraints.Positive
 
 data class UpdateDeptSalaryRequest(
-    @Size(min = 1)
-    val percentage: Long?
+    @Positive
+    val percentage: Double
 )
