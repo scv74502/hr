@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestParam
 
 @FeignClient(
     name = "publicClient",
-    url = "\${external.public.url}",
+    url = "\${external.public.min-wage.url}",
     configuration = [PublicClientConfig::class])
 interface PublicClient {
-    @GetMapping("\${external.public.api-url}")
+    @GetMapping("\${external.public.min-wage.api-url}")
     fun search(
         @RequestParam("page") page: Int,
         @RequestParam("perPage") perPage: Int,

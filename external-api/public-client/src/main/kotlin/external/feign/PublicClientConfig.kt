@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Bean
 class PublicClientConfig {
     @Bean
     fun requestInterceptor(
-        @Value("\${external.public.params.serviceKey}") serviceKey: String,
-        @Value("\${external.public.headers.Authorization}") authorization: String
+        @Value("\${external.public.min-wage.params.serviceKey}") serviceKey: String,
+        @Value("\${external.public.min-wage.headers.Authorization}") authorization: String
     ): RequestInterceptor {
         return RequestInterceptor { requestTemplate: RequestTemplate ->
             requestTemplate.header("Authorization", authorization)
