@@ -1,0 +1,24 @@
+server:
+  port: 28080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+        use_sql_comments: true
+#---
+#spring:
+#  profiles: production
+#  datasource:
+#    url: jdbc:mysql://prod-db-server:3306/hr_schema
+#    username: prod_username
+#    password: prod_password
