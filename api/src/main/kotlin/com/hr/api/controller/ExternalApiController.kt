@@ -7,9 +7,13 @@ import external.MinWagePerYearResponse
 import jakarta.validation.Valid
 import lombok.RequiredArgsConstructor
 import lombok.extern.slf4j.Slf4j
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 @Slf4j
 @RestController
@@ -21,6 +25,11 @@ class ExternalApiController(
     @GetMapping
     fun searchMinWage(@Valid request: MinWageSearchRequest): MinWagePerYearResponse{
         logger.info { "[ExternalApiController.searchMinWage] search = {${request}}" }
-        return externalApiService.search(request.page, request.perPage)
+        val futureResponse = externalApiService.searchAsync(request.page, request.perPage)
+        return try{
+            futureResponse.get(10, TimeUnit.SECONDS)
+        } catch(e: TimeoutException){
+            throw ResponseStatusException(HttpStatus.REQUEST_TIMEOUT, "응답시간 초과")
+        }
     }
 }

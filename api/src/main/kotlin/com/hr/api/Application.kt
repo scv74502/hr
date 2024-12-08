@@ -7,9 +7,11 @@ import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.runApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
+import org.springframework.scheduling.annotation.EnableAsync
 
 @EnableFeignClients(clients = [PublicClient::class])
 @SpringBootApplication
+@EnableAsync
 @EntityScan(basePackages = ["com.hr.domain"])
 class ApiApplication(){
 
