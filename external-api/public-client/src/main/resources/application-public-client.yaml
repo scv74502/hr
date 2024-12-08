@@ -1,0 +1,28 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+external:
+    public:
+      url: https://api.odcloud.kr/api/15068774
+      headers:
+        Authorization: ${PUBLIC_AUTHORIZATION}
+      params:
+        serviceKey:${PARAMS_SERVICEKEY}
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+external:
+  public:
+    url: https://api.odcloud.kr/api/15068774
+    params:
+      serviceKey:${PARAMS_SERVICEKEY}
+    headers:
+      Authorization: ${PUBLIC_AUTHORIZATION}
+
+
+
+
+
