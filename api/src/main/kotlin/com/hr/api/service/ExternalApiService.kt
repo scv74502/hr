@@ -2,6 +2,7 @@ package com.hr.api.service
 
 import com.hr.api.service.externalApis.MinWageService
 import external.MinWagePerYearResponse
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import java.util.concurrent.CompletableFuture
 
@@ -14,6 +15,7 @@ class ExternalApiService(
         return response
     }
 
+    @Async
     fun searchAsync(page: Int, perPage: Int): CompletableFuture<MinWagePerYearResponse> {
         val response = minWageService.search(page, perPage)
         return CompletableFuture.completedFuture(response)

@@ -25,10 +25,6 @@ class MinWageRepository(
             )
         return minWagePerYearResponse
     }
-
-//    private fun createResponse(minWagePerYear: MinWagePerYear){
-//        return
-//    }
 }
 
 

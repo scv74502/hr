@@ -8,13 +8,15 @@ data class MinWagePerYearResponse(
 
     @JsonProperty("data")
     var data: List<MinWagePerYear>? = null,
+
+    @JsonProperty("matchCount")
     var matchCount: Int? = null,
 
     @JsonProperty("page")
     var page: Int? = null,
 
-    @JsonProperty("pageCount")
-    var pageCount: Int? = null,
+    @JsonProperty("perPage")
+    var perPage: Int? = null,
 
     @JsonProperty("totalCount")
     var totalCount: Int? = null,

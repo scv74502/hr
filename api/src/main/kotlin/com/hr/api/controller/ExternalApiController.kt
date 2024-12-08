@@ -27,7 +27,7 @@ class ExternalApiController(
         logger.info { "[ExternalApiController.searchMinWage] search = {${request}}" }
         val futureResponse = externalApiService.searchAsync(request.page, request.perPage)
         return try{
-            futureResponse.get(10, TimeUnit.SECONDS)
+            futureResponse.get(40, TimeUnit.SECONDS)
         } catch(e: TimeoutException){
             throw ResponseStatusException(HttpStatus.REQUEST_TIMEOUT, "응답시간 초과")
         }
