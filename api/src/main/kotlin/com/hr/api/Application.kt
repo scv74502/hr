@@ -1,12 +1,14 @@
 package com.hr.api
 
 import com.fasterxml.jackson.datatype.hibernate5.jakarta.Hibernate5JakartaModule
+import external.feign.PublicClient
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.runApplication
+import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.ComponentScan
 
+@EnableFeignClients(clients = [PublicClient::class])
 @SpringBootApplication
 @EntityScan(basePackages = ["com.hr.domain"])
 class ApiApplication(){
@@ -15,7 +17,7 @@ class ApiApplication(){
 
 // Jackson Hibernate5JakartaModule 모듈을 위한 Bean 생성하기
 @Bean
-fun Hibernate5JakartaModule(): Hibernate5JakartaModule? {
+fun Hibernate5JakartaModule(): Hibernate5JakartaModule {
     return Hibernate5JakartaModule()
 }
 

@@ -1,14 +1,21 @@
 spring:
+  profiles:
+    active: local # 기본적으로 local 프로파일을 활성화
+
+---
+spring:
   config:
     activate:
       on-profile: local
 external:
-    public:
-      url: https://api.odcloud.kr/api/15068774
-      headers:
-        Authorization: ${PUBLIC_AUTHORIZATION}
-      params:
-        serviceKey:${PARAMS_SERVICEKEY}
+  public:
+    url: https://api.odcloud.kr/api/15068774/v1
+    api-url: /uddi:d1e3f9de-a67c-498c-b010-b1c85ae2301e
+    params:
+      serviceKey: ${PUBLIC_PARAMS_SERVICE_KEY}
+    headers:
+      Authorization: ${PUBLIC_AUTHORIZATION}
+
 ---
 spring:
   config:
@@ -17,12 +24,8 @@ spring:
 external:
   public:
     url: https://api.odcloud.kr/api/15068774
+    api-url: /uddi:d1e3f9de-a67c-498c-b010-b1c85ae2301e
     params:
-      serviceKey:${PARAMS_SERVICEKEY}
+      serviceKey: ${PUBLIC_PARAMS_SERVICE_KEY}
     headers:
       Authorization: ${PUBLIC_AUTHORIZATION}
-
-
-
-
-

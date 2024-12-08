@@ -1,3 +1,14 @@
 spring:
   profiles:
-    active: prod
+    active: local
+  config:
+    import:
+      - application-public-client.yaml
+#external:
+#  public:
+#    url: https://api.odcloud.kr/api/15068774
+#    api-url: /uddi:d1e3f9de-a67c-498c-b010-b1c85ae2301e
+#    params:
+#      serviceKey: ${PUBLIC_PARAMS_SERVICE_KEY}
+#    headers:
+#      Authorization: ${PUBLIC_AUTHORIZATION}
