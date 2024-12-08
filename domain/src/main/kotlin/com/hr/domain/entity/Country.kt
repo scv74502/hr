@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size
 open class Country {
     @Id
     @Size(max = 2)
-    @Column(name = "country_id", nullable = false, length = 2)
+    @Column(name = "country_id", nullable = false, length = 2, columnDefinition = "VARCHAR(2)")
     open var countryId: String? = null
 
     @Size(max = 40)
